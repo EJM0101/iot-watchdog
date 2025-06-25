@@ -8,7 +8,7 @@
 </head>
 <body class="bg-light">
 <div class="container py-4">
-    <h1 class="text-center mb-4">🕒 IoT Watchdog — Temps Réel Synchrone / Asynchrone</h1>
+    <h1 class="text-center mb-4">🕒 IoT Watchdog — Synchrone / Asynchrone</h1>
 
     <form method="POST" class="mb-4">
         <label><strong>Choisissez le mode de surveillance :</strong></label>
@@ -22,15 +22,11 @@
     <div class="alert alert-info">
         <strong>Mode actuel :</strong> {{ MODE }}<br>
         {% if MODE == "SCRUTATION" %}
-        <p>
-            Le serveur interroge chaque capteur toutes les 2 secondes pour récupérer leur état.
-            Ce mode simule un système <strong>synchrone</strong> basé sur un cycle d'exécution.
-        </p>
+        <p>Le serveur interroge chaque capteur toutes les 2 secondes.  
+        Ce mode simule un système <b>synchrone</b> : prédictible mais parfois lent à réagir.</p>
         {% elif MODE == "INTERRUPTION" %}
-        <p>
-            Les capteurs publient leurs valeurs via le protocole <strong>MQTT</strong> en temps réel.
-            Ce mode simule un système <strong>asynchrone</strong> réactif aux événements.
-        </p>
+        <p>Les capteurs envoient les données dès qu’un événement se produit via MQTT.  
+        Ce mode simule un système <b>asynchrone</b> : très réactif, mais moins prédictible.</p>
         {% endif %}
     </div>
 
