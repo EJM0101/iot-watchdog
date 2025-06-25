@@ -2,27 +2,41 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>IoT Watchdog - Systèmes Synchrone/Asynchrone</title>
+    <title>IoT Watchdog - Synchrone / Asynchrone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
 </head>
 <body class="bg-light">
-
 <div class="container py-4">
-    <h1 class="mb-4 text-center">🕒 IoT Watchdog - Temps Réel Synchrone & Asynchrone</h1>
+    <h1 class="text-center mb-4">🕒 IoT Watchdog — Temps Réel Synchrone / Asynchrone</h1>
+
+    <form method="POST" class="mb-4">
+        <label><strong>Choisissez le mode de surveillance :</strong></label>
+        <select name="mode" class="form-select mb-2" required>
+            <option value="SCRUTATION" {% if MODE == "SCRUTATION" %}selected{% endif %}>SCRUTATION — Interrogation cyclique</option>
+            <option value="INTERRUPTION" {% if MODE == "INTERRUPTION" %}selected{% endif %}>INTERRUPTION — Réaction aux événements</option>
+        </select>
+        <button type="submit" class="btn btn-primary">🔄 Appliquer le mode</button>
+    </form>
 
     <div class="alert alert-info">
-        <b>Mode actuel :</b> {{ MODE }}<br>
-        <i>Scrutation = interrogation cyclique du réseau de capteurs toutes les 2 secondes.<br>
-        Interruption = réception instantanée des valeurs via le broker MQTT.</i>
+        <strong>Mode actuel :</strong> {{ MODE }}<br>
+        {% if MODE == "SCRUTATION" %}
+        <p>
+            Le serveur interroge chaque capteur toutes les 2 secondes pour récupérer leur état.
+            Ce mode simule un système <strong>synchrone</strong> basé sur un cycle d'exécution.
+        </p>
+        {% elif MODE == "INTERRUPTION" %}
+        <p>
+            Les capteurs publient leurs valeurs via le protocole <strong>MQTT</strong> en temps réel.
+            Ce mode simule un système <strong>asynchrone</strong> réactif aux événements.
+        </p>
+        {% endif %}
     </div>
 
-    <div class="row" id="dashboard">
-    </div>
+    <div class="row" id="dashboard"></div>
 </div>
 
 <script src="/static/js/dashboard.js"></script>
-
 </body>
 </html>
